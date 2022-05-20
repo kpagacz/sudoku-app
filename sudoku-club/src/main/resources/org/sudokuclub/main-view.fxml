@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.MainController">
+   <children>
+      <fx:include fx:id="NavBar" source="nav-bar.fxml" />
+      <Label fx:id="testLabel" layoutX="386.0" layoutY="267.0" text="Label" />
+      <Button layoutX="353.0" layoutY="316.0" mnemonicParsing="false" onAction="#goToSudoku" text="Create Sudoku" />
+      <Button layoutX="381.0" layoutY="218.0" mnemonicParsing="false" onAction="#goToSudokuList" text="Play" />
+   </children>
+</Pane>

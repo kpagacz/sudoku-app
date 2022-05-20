@@ -1,9 +1,9 @@
-module com.example.sudokuclub {
+module org.sudokuclub {
     requires javafx.controls;
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
 
-    opens com.example.sudokuclub to javafx.fxml;
-    exports com.example.sudokuclub;
+    opens org.sudokuclub to javafx.fxml;
+    exports org.sudokuclub;
 }

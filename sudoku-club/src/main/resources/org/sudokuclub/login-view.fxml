@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.LoginController">
+   <children>
+       <fx:include fx:id="NavBar" source="nav-bar.fxml" />
+      <Label fx:id="testLabel" layoutX="386.0" layoutY="292.0" text="Label" />
+      <Button layoutX="258.0" layoutY="321.0" mnemonicParsing="false" onAction="#goToRegisterView" text="Go to Register" />
+   </children>
+</Pane>
