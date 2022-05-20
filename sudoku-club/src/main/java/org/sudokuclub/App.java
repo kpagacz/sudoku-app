@@ -1,11 +1,13 @@
-package com.example.sudokuclub;
+package org.sudokuclub;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.sudokuclub.dao.SudokuDbConnFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class App extends Application {
     @Override
@@ -18,6 +20,11 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        try {
+            System.out.println(SudokuDbConnFactory.get().getSchema());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         launch();
     }
 }

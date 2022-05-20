@@ -1,9 +1,11 @@
 module com.example.sudokuclub {
     requires javafx.controls;
     requires javafx.fxml;
-
     requires org.controlsfx.controls;
+    requires java.sql;
+    requires org.apache.logging.log4j;
+    requires com.fasterxml.jackson.databind;
 
-    opens com.example.sudokuclub to javafx.fxml;
-    exports com.example.sudokuclub;
+    opens org.sudokuclub to javafx.fxml;
+    exports org.sudokuclub;
 }

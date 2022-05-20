@@ -1,0 +1,13 @@
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'sudoku_club'
+      MYSQL_USER: sudoku_club
+      MYSQL_PASSWORD: dokidoki
+      MYSQL_ROOT_PASSWORD: dokidoki
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
