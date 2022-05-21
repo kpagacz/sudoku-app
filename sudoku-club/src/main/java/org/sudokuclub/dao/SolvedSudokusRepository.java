@@ -23,11 +23,25 @@ public class SolvedSudokusRepository {
     }
   }
 
-  public static Sudoku get(int id, Connection conn) {
-    return null;
+  public static SolvedSudoku get(int id, Connection conn) {
+    try (Statement statement = conn.createStatement()) {
+      String query = String.format("SELECT * from %s WHERE idSolvedSudokus=%d", table, id);
+      ResultSet result = statement.executeQuery(query);
+      return new SolvedSudoku(id, result.getInt(2), result.getString(3));
+    } catch (SQLException e) {
+      logger.warn("Failed to get the requested solved sudoku");
+      return null;
+    }
   }
 
   public static boolean delete(int id, Connection conn) {
-    return false;
+    try (Statement statement = conn.createStatement()) {
+      String query = String.format("DELETE FROM %s WHERE idSolvedSudokus=%d", table, id);
+      statement.execute(query);
+      return statement.getUpdateCount() > 0;
+    } catch (SQLException e) {
+      logger.warn("Failed to delete entries");
+      return false;
+    }
   }
 }

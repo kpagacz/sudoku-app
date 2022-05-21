@@ -35,13 +35,19 @@ public class SudokusRepository {
       ResultSet result = statement.executeQuery(query);
       List<Sudoku> sudokus = new ArrayList<>();
       while(result.next()) {
-
+        sudokus.add(new Sudoku(
+                result.getInt(1),
+                result.getString(2),
+                result.getString(3),
+                result.getString(4)
+        ));
       }
-    } catch (SQLException e) {
-      logger.warn("Failed to get the requested sudoku");
+
+      return sudokus;
+    } catch (SQLException | JsonProcessingException e) {
+      logger.warn("Failed to get sudokus");
       return null;
     }
-    return null;
   }
 
   public static Sudoku get(int id, Connection conn) {
