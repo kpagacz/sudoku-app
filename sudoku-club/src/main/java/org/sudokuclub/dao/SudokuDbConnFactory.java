@@ -8,20 +8,30 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class SudokuDbConnFactory {
-  public static Connection get() {
+  static {
     Properties dbConfig = new Properties();
     InputStream propertiesStream =
-        SudokuDbConnFactory.class.getClassLoader().getResourceAsStream("org/sudokuclub/dbConfig.properties");
+        SudokuDbConnFactory.class.getClassLoader().getResourceAsStream("dbConfig.properties");
     try {
       dbConfig.load(propertiesStream);
       Class.forName(dbConfig.getProperty("db.driver.class"));
-      return DriverManager.getConnection(
-          dbConfig.getProperty("db.conn.url"),
-          dbConfig.getProperty("db.username"),
-          dbConfig.getProperty("db.password"));
-    } catch (ClassNotFoundException | IOException | SQLException e) {
+    } catch (IOException | ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
   }
 
+  public static Connection get() {
+    Properties dbConfig = new Properties();
+    InputStream propertiesStream =
+        SudokuDbConnFactory.class.getClassLoader().getResourceAsStream("dbConfig.properties");
+    try {
+      dbConfig.load(propertiesStream);
+      return DriverManager.getConnection(
+          dbConfig.getProperty("db.conn.url"),
+          dbConfig.getProperty("db.username"),
+          dbConfig.getProperty("db.password"));
+    } catch (IOException | SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

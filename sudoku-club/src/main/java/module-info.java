@@ -1,4 +1,4 @@
-module com.example.sudokuclub {
+module org.sudokuclub {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.controlsfx.controls;
