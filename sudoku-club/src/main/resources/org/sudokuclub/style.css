@@ -1,6 +1,8 @@
 * {
-    -fx-main: #DDDDDD;
-    -fx-header: #C2C2C2;
+    -fx-main: #FFE6F4;
+    -fx-header: #FFBDE1;
+    -fx-button: #7C7492;
+    -fx-button-darker: #615b73;
 }
 
 .main {
@@ -9,4 +11,18 @@
 
 .navigation {
     -fx-background-color: -fx-header;
+}
+
+.button {
+    -fx-background-color: -fx-button;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Inter;
+    -fx-text-alignment: center;
+    -fx-font-size: 15px;
+    -fx-padding: 0.3em 1.1em 0.3em 1.1em;
+}
+
+.button:hover, .button:focused {
+    -fx-background-color: -fx-button-darker;
 }

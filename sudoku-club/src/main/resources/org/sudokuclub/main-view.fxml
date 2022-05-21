@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.MainController">
    <children>
       <fx:include fx:id="NavBar" source="nav-bar.fxml" />
-      <Label fx:id="testLabel" layoutX="386.0" layoutY="267.0" text="Label" />
-      <Button layoutX="353.0" layoutY="316.0" mnemonicParsing="false" onAction="#goToSudoku" text="Create Sudoku" />
-      <Button layoutX="381.0" layoutY="218.0" mnemonicParsing="false" onAction="#goToSudokuList" text="Play" />
+      <Button layoutX="335.0" layoutY="460.0" mnemonicParsing="false" onAction="#goToSudoku" text="Create Sudoku" />
+      <Button layoutX="374.0" layoutY="101.0" mnemonicParsing="false" onAction="#goToSudokuList" stylesheets="@style.css" text="Play" textAlignment="CENTER">
+         <font>
+            <Font name="Inter Bold" size="15.0" />
+         </font></Button>
+      <ImageView fx:id="logoImage" fitHeight="300.0" fitWidth="300.0" layoutX="250.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Logo.png" />
+         </image></ImageView>
    </children>
 </Pane>

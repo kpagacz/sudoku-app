@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="800.0" styleClass="navigation" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.NavBarController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="800.0" styleClass="navigation" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.NavBarController">
    <children>
-      <Button layoutX="736.0" layoutY="13.0" mnemonicParsing="false" onAction="#goToLoginView" text="Log In" />
-      <Button layoutX="645.0" layoutY="13.0" mnemonicParsing="false" onAction="#goToSudokuList" text="My Sudokus" />
-      <Label layoutX="14.0" layoutY="1.0" onMouseClicked="#goToMainView" text="Doki Doki Sudoku Club">
+      <Button layoutX="705.0" layoutY="11.0" mnemonicParsing="false" onAction="#goToLoginView" text="Log In" />
+      <Button layoutX="563.0" layoutY="11.0" mnemonicParsing="false" onAction="#goToSudokuList" text="My Sudokus" />
+      <Label layoutX="14.0" layoutY="6.0" onMouseClicked="#goToMainView" prefHeight="37.0" prefWidth="219.0" styleClass="navigation__home-label" text="Doki Doki Sudoku Club">
          <font>
             <Font name="Ink Free" size="24.0" />
          </font>
