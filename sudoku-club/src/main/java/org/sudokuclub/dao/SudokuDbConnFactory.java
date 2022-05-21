@@ -20,18 +20,14 @@ public class SudokuDbConnFactory {
     }
   }
 
-  public static Connection get() {
+  public static Connection get() throws IOException, SQLException {
     Properties dbConfig = new Properties();
     InputStream propertiesStream =
         SudokuDbConnFactory.class.getClassLoader().getResourceAsStream("dbConfig.properties");
-    try {
-      dbConfig.load(propertiesStream);
-      return DriverManager.getConnection(
-          dbConfig.getProperty("db.conn.url"),
-          dbConfig.getProperty("db.username"),
-          dbConfig.getProperty("db.password"));
-    } catch (IOException | SQLException e) {
-      throw new RuntimeException(e);
-    }
+    dbConfig.load(propertiesStream);
+    return DriverManager.getConnection(
+        dbConfig.getProperty("db.conn.url"),
+        dbConfig.getProperty("db.username"),
+        dbConfig.getProperty("db.password"));
   }
 }
