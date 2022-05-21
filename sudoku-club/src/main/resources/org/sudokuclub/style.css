@@ -1,0 +1,12 @@
+* {
+    -fx-main: #DDDDDD;
+    -fx-header: #C2C2C2;
+}
+
+.main {
+    -fx-background-color: -fx-main;
+}
+
+.navigation {
+    -fx-background-color: -fx-header;
+}
