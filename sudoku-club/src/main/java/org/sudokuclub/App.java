@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(getClass().getResourceAsStream("fonts/Inkfree.ttf"), 14);
         mainStage = stage;
         mainStage.setTitle("Doki Doki Sudoku Club");
         Parent newWindow = FXMLLoader.load(App.class.getResource("main-view.fxml"));

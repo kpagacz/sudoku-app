@@ -5,12 +5,22 @@
     -fx-button-darker: #615b73;
 }
 
+@font-face {
+    font-family: 'Ink Free';
+    src: url('fonts/Inkfree.ttf');
+}
+
 .main {
     -fx-background-color: -fx-main;
 }
 
 .navigation {
     -fx-background-color: -fx-header;
+}
+
+.navigation__home-label {
+    -fx-font-family: "Ink Free";
+    -fx-font-size: 24px;
 }
 
 .button {
