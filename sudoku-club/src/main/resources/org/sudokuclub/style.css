@@ -1,6 +1,13 @@
 * {
-    -fx-main: #DDDDDD;
-    -fx-header: #C2C2C2;
+    -fx-main: #FFE6F4;
+    -fx-header: #FFBDE1;
+    -fx-button: #7C7492;
+    -fx-button-darker: #615b73;
+}
+
+@font-face {
+    font-family: 'Ink Free';
+    src: url('fonts/Inkfree.ttf');
 }
 
 .main {
@@ -9,4 +16,22 @@
 
 .navigation {
     -fx-background-color: -fx-header;
+}
+
+.navigation__home-label {
+    -fx-font-family: "Ink Free";
+    -fx-font-size: 24px;
+}
+
+.button {
+    -fx-background-color: -fx-button;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-font-size: 15px;
+    -fx-padding: 0.3em 1.1em 0.3em 1.1em;
+}
+
+.button:hover, .button:focused {
+    -fx-background-color: -fx-button-darker;
 }
