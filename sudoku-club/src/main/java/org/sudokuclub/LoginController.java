@@ -30,10 +30,10 @@ public class LoginController {
     private final String password;
     private final Connection conn;
 
-    public SignInTask(String login, String password, Connection conn) {
+    public SignInTask(String login, String password) throws SQLException, IOException {
       this.login = login;
       this.password = password;
-      this.conn = conn;
+      this.conn = SudokuDbConnFactory.get();
     }
 
     @Override
@@ -41,10 +41,28 @@ public class LoginController {
       User user = UsersRepository.get(login, conn);
       return user.password().equals(password);
     }
+
+    @Override
+    protected void cancelled() {
+      super.cancelled();
+      try {
+        conn.close();
+      } catch (SQLException ignored) {
+      }
+    }
+
+    @Override
+    protected void succeeded() {
+      super.succeeded();
+      try {
+        conn.close();
+      } catch (SQLException ignored) {
+      }
+    }
   }
 
   private void handleSignInSuccess(WorkerStateEvent event) {
-    if ((boolean)event.getSource().getValue()) {
+    if ((boolean) event.getSource().getValue()) {
       System.out.println("Sign In Success");
       signInMessage.setText("Success");
     } else {
@@ -61,10 +79,8 @@ public class LoginController {
 
   private void handleSignIn(ActionEvent event) {
     signInButton.setDisable(true);
-    Connection conn = null;
     try {
-      conn = SudokuDbConnFactory.get();
-      SignInTask signInTask = new SignInTask(loginField.getText(), passwordField.getText(), conn);
+      SignInTask signInTask = new SignInTask(loginField.getText(), passwordField.getText());
       signInTask.setOnSucceeded(this::handleSignInSuccess);
       signInTask.setOnFailed(this::handleSignInFailure);
       Thread thread = new Thread(signInTask);
@@ -73,13 +89,6 @@ public class LoginController {
     } catch (Exception e) {
       signInMessage.setText("Failure");
       signInButton.setDisable(false);
-    } finally {
-      try {
-        if (conn != null) conn.close();
-      } catch (SQLException e) {
-        signInMessage.setText("Failure");
-        signInButton.setDisable(false);
-      }
     }
   }
 
