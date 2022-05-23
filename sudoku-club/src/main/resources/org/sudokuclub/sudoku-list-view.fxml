@@ -7,5 +7,6 @@
     <children>
         <fx:include fx:id="NavBar" source="nav-bar.fxml" />
         <Label fx:id="testLabel" layoutX="289.0" layoutY="243.0" prefHeight="20.0" prefWidth="262.0" text="Label" wrapText="true" />
+      <Button layoutX="325.0" layoutY="311.0" mnemonicParsing="false" onAction="#goToSudokuPlayer" text="Play test sudoku" />
     </children>
 </Pane>
