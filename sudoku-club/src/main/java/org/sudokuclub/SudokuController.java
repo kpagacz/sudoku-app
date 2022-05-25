@@ -16,7 +16,7 @@ public class SudokuController {
     private Label testLabel;
 
     public void initialize() {
-        this.testLabel.setText("Here will be Sudoku to play or create");
+        this.testLabel.setText("Here will be Sudoku to create");
     }
 
     @FXML
