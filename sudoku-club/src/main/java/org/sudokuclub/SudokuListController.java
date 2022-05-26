@@ -3,17 +3,29 @@ package org.sudokuclub;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 import java.io.IOException;
 
 public class SudokuListController {
 
+    class Sudoku {
+        //placeholder
+    }
+
     @FXML
-    private Label testLabel;
+    private TableView<Sudoku> sudokuTable;
+    @FXML
+    private TableColumn<Sudoku, String> nameColumn;
+    @FXML
+    private TableColumn<Sudoku, String> authorColumn;
+    @FXML
+    private TableColumn<Sudoku, String> doneColumn;
 
     public void initialize() {
-        this.testLabel.setText("Here will be list of sudokus");
+
+
     }
 
     @FXML
