@@ -1,10 +1,14 @@
 package org.sudokuclub.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SolvedSudokusRepository {
   private static final String table = "SolvedSudokus";
@@ -23,6 +27,22 @@ public class SolvedSudokusRepository {
     ResultSet result = statement.executeQuery(query);
     result.next();
     return new SolvedSudoku(id, result.getInt(2), result.getString(3));
+  }
+
+  public static List<SolvedSudoku> get(String player, Connection conn) throws SQLException {
+    Statement statement = conn.createStatement();
+    String query = String.format("SELECT * from %s WHERE userLogin='%s'", table, player);
+    return extractSolvedSudokusFromQuery(statement, query);
+  }
+
+  private static List<SolvedSudoku> extractSolvedSudokusFromQuery(Statement statement, String query)
+      throws SQLException {
+    ResultSet result = statement.executeQuery(query);
+    List<SolvedSudoku> sudokus = new ArrayList<>();
+    while (result.next()) {
+      sudokus.add(new SolvedSudoku(result.getInt(1), result.getInt(2), result.getString(3)));
+    }
+    return sudokus;
   }
 
   public static boolean delete(int id, Connection conn) throws SQLException {

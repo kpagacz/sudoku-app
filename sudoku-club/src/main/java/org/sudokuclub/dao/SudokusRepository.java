@@ -29,6 +29,20 @@ public class SudokusRepository {
   public static List<Sudoku> get(Connection conn) throws SQLException, JsonProcessingException {
     Statement statement = conn.createStatement();
     String query = String.format("SELECT * from %s", table);
+    return extractSudokusFromQuery(statement, query);
+  }
+
+  public static List<Sudoku> get(Connection conn, int page, int itemsPerPage)
+      throws SQLException, JsonProcessingException {
+    Statement statement = conn.createStatement();
+    int offset = (page - 1) * itemsPerPage;
+    String query =
+        String.format("SELECT * from %s LIMIT %d OFFSET %d", table, itemsPerPage, offset);
+    return extractSudokusFromQuery(statement, query);
+  }
+
+  private static List<Sudoku> extractSudokusFromQuery(Statement statement, String query)
+      throws SQLException, JsonProcessingException {
     ResultSet result = statement.executeQuery(query);
     List<Sudoku> sudokus = new ArrayList<>();
     while (result.next()) {
@@ -36,7 +50,6 @@ public class SudokusRepository {
           new Sudoku(
               result.getInt(1), result.getString(2), result.getString(3), result.getString(4)));
     }
-
     return sudokus;
   }
 
