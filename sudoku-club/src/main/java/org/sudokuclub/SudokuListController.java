@@ -1,5 +1,7 @@
 package org.sudokuclub;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,21 +12,21 @@ import java.io.IOException;
 
 public class SudokuListController {
 
-    class Sudoku {
+    class SudokuRow {
         //placeholder
     }
 
     @FXML
-    private TableView<Sudoku> sudokuTable;
+    private TableView<SudokuRow> sudokuTable;
     @FXML
-    private TableColumn<Sudoku, String> nameColumn;
+    private TableColumn<SudokuRow, String> nameColumn;
     @FXML
-    private TableColumn<Sudoku, String> authorColumn;
+    private TableColumn<SudokuRow, String> authorColumn;
     @FXML
-    private TableColumn<Sudoku, String> doneColumn;
+    private TableColumn<SudokuRow, String> doneColumn;
 
     public void initialize() {
-
+        ObservableList<SudokuRow> initialItems = FXCollections.observableArrayList();
 
     }
 
