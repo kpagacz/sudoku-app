@@ -67,18 +67,14 @@ public class SudokuListController {
                         finalSolvedSudokus.contains(sudoku.id())))
             .toList();
     rowItems = FXCollections.observableArrayList(rowItemsRaw);
-
     this.sudokuTable.setItems(rowItems);
-    this.nameColumn = new TableColumn<>("Name");
     this.nameColumn.setCellValueFactory(
             s -> new SimpleStringProperty(s.getValue().name)
     );
-    this.nameColumn = new TableColumn<>("Author");
-    this.nameColumn.setCellValueFactory(
+    this.authorColumn.setCellValueFactory(
             s -> new SimpleStringProperty(s.getValue().author)
     );
-    this.nameColumn = new TableColumn<>("Done");
-    this.nameColumn.setCellValueFactory(
+    this.doneColumn.setCellValueFactory(
             s -> new SimpleStringProperty(String.valueOf(s.getValue().done))
     );
     //sudokuTable.prefHeightProperty().bind(sudokuTable.fixedCellSizeProperty().multiply(Bindings.size(sudokuTable.getItems()).add(1.5)));
