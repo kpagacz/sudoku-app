@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import org.sudokuclub.dao.SudokuDbConnFactory;
 import org.sudokuclub.dao.User;
 import org.sudokuclub.dao.UsersRepository;
+import org.sudokuclub.services.SigningService;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -26,53 +27,32 @@ public class LoginController {
   @FXML private Label signInMessage;
 
   private static class SignInTask extends Task<Boolean> {
+    private final SigningService signingService;
     private final String login;
     private final String password;
-    private final Connection conn;
 
     public SignInTask(String login, String password) throws SQLException, IOException {
       this.login = login;
       this.password = password;
-      this.conn = SudokuDbConnFactory.get();
+      signingService = new SigningService();
     }
 
     @Override
-    protected Boolean call() throws Exception {
-      User user = UsersRepository.get(login, conn);
-      return user.password().equals(password);
-    }
-
-    @Override
-    protected void cancelled() {
-      super.cancelled();
-      try {
-        conn.close();
-      } catch (SQLException ignored) {
-      }
-    }
-
-    @Override
-    protected void succeeded() {
-      super.succeeded();
-      try {
-        conn.close();
-      } catch (SQLException ignored) {
-      }
+    protected Boolean call() {
+      return signingService.signIn(login, password);
     }
   }
 
   private void handleSignInSuccess(WorkerStateEvent event) {
     if ((boolean) event.getSource().getValue()) {
-      System.out.println("Sign In Success");
       signInMessage.setText("Success");
     } else {
-      System.out.println("Sign In Failure");
       signInMessage.setText("Password incorrect");
     }
+    signInButton.setDisable(false);
   }
 
   private void handleSignInFailure(WorkerStateEvent event) {
-    System.out.println("Sign In Failure");
     signInMessage.setText("Failure");
     signInButton.setDisable(false);
   }
