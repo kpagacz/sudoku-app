@@ -20,4 +20,8 @@ public class SudokuService {
   public List<Sudoku> get(int page, int itemsPerPage) throws SQLException, JsonProcessingException {
     return SudokusRepository.get(connection, page, itemsPerPage);
   }
+
+  public int sudokusCount() throws SQLException {
+    return SudokusRepository.getSudokusCount(connection);
+  }
 }

@@ -41,6 +41,14 @@ public class SudokusRepository {
     return extractSudokusFromQuery(statement, query);
   }
 
+  public static int getSudokusCount(Connection conn) throws SQLException {
+    Statement statement = conn.createStatement();
+    String query = String.format("SELECT COUNT(*) from %s", table);
+    ResultSet rs = statement.executeQuery(query);
+    rs.next();
+    return rs.getInt(1);
+  }
+
   private static List<Sudoku> extractSudokusFromQuery(Statement statement, String query)
       throws SQLException, JsonProcessingException {
     ResultSet result = statement.executeQuery(query);
