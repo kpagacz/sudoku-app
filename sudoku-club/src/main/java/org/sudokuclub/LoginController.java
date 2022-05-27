@@ -10,17 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.sudokuclub.dao.SudokuDbConnFactory;
-import org.sudokuclub.dao.User;
-import org.sudokuclub.dao.UsersRepository;
+import javafx.scene.layout.Pane;
 import org.sudokuclub.services.SigningService;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 
 public class LoginController {
+  @FXML private Pane navBar;
   @FXML private Button signInButton;
   @FXML private TextField loginField;
   @FXML private PasswordField passwordField;
@@ -46,6 +44,7 @@ public class LoginController {
   private void handleSignInSuccess(WorkerStateEvent event) {
     if ((boolean) event.getSource().getValue()) {
       signInMessage.setText("Success");
+      goToMainView();
     } else {
       signInMessage.setText("Password incorrect");
     }
@@ -82,6 +81,16 @@ public class LoginController {
     try {
       Parent newWindow =
           FXMLLoader.load(Objects.requireNonNull(App.class.getResource("register-view.fxml")));
+      App.setNewScene(newWindow);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void goToMainView() {
+    try {
+      Parent newWindow =
+          FXMLLoader.load(Objects.requireNonNull(App.class.getResource("main-view.fxml")));
       App.setNewScene(newWindow);
     } catch (IOException e) {
       e.printStackTrace();

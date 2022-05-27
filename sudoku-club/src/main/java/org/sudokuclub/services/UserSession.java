@@ -1,31 +1,31 @@
 package org.sudokuclub.services;
 
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserSession {
   private static final Logger logger = LogManager.getLogger(UserSession.class);
 
-  private static UserSession instance;
-  private String login;
-
   private UserSession() {}
 
-  public static synchronized UserSession get() {
-    return instance;
+  private static final StringProperty login = new SimpleStringProperty("");
+
+  public static void create(String login) {
+    Platform.runLater(() -> {
+      UserSession.login.setValue(login);
+      logger.debug(String.format("User session created with login: %s", login));
+    });
+  }
+
+  public static StringProperty getLogin() {
+    return login;
   }
 
   public static void clear() {
-    instance = null;
-  }
-
-  public static void create(String login) {
-    instance = new UserSession();
-    instance.login = login;
-    logger.debug("User session created with login: %s", login);
-  }
-
-  public String getLogin() {
-    return login;
+    login.setValue("");
+    logger.debug("User session ended");
   }
 }
