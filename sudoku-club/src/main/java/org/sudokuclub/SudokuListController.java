@@ -1,5 +1,7 @@
 package org.sudokuclub;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.sudokuclub.dao.SolvedSudoku;
 import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.SolvedSudokusService;
@@ -24,7 +27,7 @@ public class SudokuListController {
 
   record SudokuRow(int id, String name, String author, boolean done) {}
 
-  private List<SudokuRow> rowItems = new ArrayList<>();
+  private ObservableList<SudokuRow> rowItems;
 
   @FXML private TableView<SudokuRow> sudokuTable;
   @FXML private TableColumn<SudokuRow, String> nameColumn;
@@ -53,7 +56,7 @@ public class SudokuListController {
     }
 
     Set<Integer> finalSolvedSudokus = solvedSudokus;
-    rowItems =
+    List<SudokuRow> rowItemsRaw =
         sudokus.stream()
             .map(
                 sudoku ->
@@ -63,6 +66,23 @@ public class SudokuListController {
                         sudoku.author(),
                         finalSolvedSudokus.contains(sudoku.id())))
             .toList();
+    rowItems = FXCollections.observableArrayList(rowItemsRaw);
+
+    this.sudokuTable.setItems(rowItems);
+    this.nameColumn = new TableColumn<>("Name");
+    this.nameColumn.setCellValueFactory(
+            s -> new SimpleStringProperty(s.getValue().name)
+    );
+    this.nameColumn = new TableColumn<>("Author");
+    this.nameColumn.setCellValueFactory(
+            s -> new SimpleStringProperty(s.getValue().author)
+    );
+    this.nameColumn = new TableColumn<>("Done");
+    this.nameColumn.setCellValueFactory(
+            s -> new SimpleStringProperty(String.valueOf(s.getValue().done))
+    );
+    //sudokuTable.prefHeightProperty().bind(sudokuTable.fixedCellSizeProperty().multiply(Bindings.size(sudokuTable.getItems()).add(1.5)));
+
   }
 
   @FXML
@@ -74,4 +94,22 @@ public class SudokuListController {
       e.printStackTrace();
     }
   }
+
+  /*@FXML
+  public void clickOnTable() {
+    try {
+      FXMLLoader loader = new FXMLLoader(App.class.getResource("sudoku-player-window.fxml"));
+      Parent newWindow = loader.load();
+      SudokuPlayerController sudokuPlayer = loader.getController();
+
+      Sudoku sudoku = sudokuTable.getSelectionModel().getSelectedItem();
+      sudokuPlayer.setSudokuName(sudoku.name);
+      sudokuPlayer.setSudokuAuthor(sudoku.author);
+      System.out.println(sudoku.id);
+
+      App.setNewScene(newWindow);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }*/
 }
