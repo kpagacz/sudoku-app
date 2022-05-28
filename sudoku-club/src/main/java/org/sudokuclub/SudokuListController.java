@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.sudokuclub.dao.Sudoku;
@@ -25,14 +26,18 @@ public class SudokuListController {
   record SudokuRow(int id, String name, String author, boolean done) {}
 
   private ObservableList<SudokuRow> rowItems;
+  private final int itemsPerPage = 10;
+  private int pagesCount;
+  private int currentPage = 1;
 
   @FXML private TableView<SudokuRow> sudokuTable;
   @FXML private TableColumn<SudokuRow, String> nameColumn;
   @FXML private TableColumn<SudokuRow, String> authorColumn;
   @FXML private TableColumn<SudokuRow, String> doneColumn;
+  @FXML private Label totalPagesLabel;
 
   public void initialize() {
-    updateRowItems(1, 10, UserSession.getLogin().getValue());
+    updateRowItems(this.currentPage, this.itemsPerPage, UserSession.getLogin().getValue());
     ObservableList<SudokuRow> initialItems = FXCollections.observableArrayList(rowItems);
   }
 
@@ -42,6 +47,12 @@ public class SudokuListController {
     try {
       SudokuService sudokuService = new SudokuService();
       sudokus = sudokuService.get(page, itemsPerPage);
+      int sudokusCount = sudokuService.sudokusCount();
+      this.pagesCount = (int) Math.ceil(sudokusCount/this.itemsPerPage);
+      if(this.pagesCount == 0) {
+        this.pagesCount = 1;
+      }
+      this.totalPagesLabel.setText(String.valueOf(this.pagesCount));
       SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
       solvedSudokus = new HashSet<>();
       if (user != null) {

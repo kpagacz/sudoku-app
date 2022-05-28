@@ -27,7 +27,7 @@
     -fx-font-size: 24px;
 }
 
-.button {
+.dds-button {
     -fx-background-color: -fx-button;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -36,7 +36,7 @@
     -fx-padding: 0.3em 1.1em 0.3em 1.1em;
 }
 
-.button:hover, .button:focused {
+.dds-button:hover, .dds-button:focused {
     -fx-background-color: -fx-button-darker;
 }
 
@@ -125,4 +125,8 @@
     -fx-shape: null;
 }
 
+.sudoku-pagination {
+    -fx-background-color: -fx-header;
+    -fx-border-radius: 10px;
+}
 
