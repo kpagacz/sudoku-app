@@ -9,8 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import org.sudokuclub.dao.SolvedSudoku;
 import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.SolvedSudokusService;
 import org.sudokuclub.services.SudokuService;
@@ -18,11 +16,9 @@ import org.sudokuclub.services.UserSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SudokuListController {
 
@@ -78,7 +74,7 @@ public class SudokuListController {
     this.doneColumn.setCellValueFactory(
             s -> new SimpleStringProperty(String.valueOf(s.getValue().done))
     );
-    //sudokuTable.prefHeightProperty().bind(sudokuTable.fixedCellSizeProperty().multiply(Bindings.size(sudokuTable.getItems()).add(1.5)));
+    sudokuTable.prefHeightProperty().bind(sudokuTable.fixedCellSizeProperty().multiply(Bindings.size(sudokuTable.getItems()).add(1)));
 
   }
 

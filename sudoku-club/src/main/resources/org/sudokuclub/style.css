@@ -86,3 +86,43 @@
 .sudoku__cell--invalid {
     -fx-text-fill: -fx-negative;
 }
+
+.sudoku-table {
+    -fx-selection-bar: #EE75B7;
+    -fx-selection-bar-non-focused: #E4ADCB;
+}
+
+.sudoku-table .column-header-background {
+    -fx-background-color: -fx-header;
+}
+
+.sudoku-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-width: 0px 1px 1px 0px;
+    -fx-border-color: black;
+}
+
+.sudoku-table .table-cell {
+    -fx-border-width: 0px 1px 1px 0px;
+    -fx-border-color: black;
+    -fx-padding: 2 0 2 10px;
+}
+
+.sudoku-table *.scroll-bar:horizontal *.increment-button,
+.sudoku-table *.scroll-bar:horizontal *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.sudoku-table *.scroll-bar:horizontal *.increment-arrow,
+.sudoku-table *.scroll-bar:horizontal *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
+
