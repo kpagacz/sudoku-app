@@ -8,4 +8,6 @@ module org.sudokuclub {
 
     opens org.sudokuclub to javafx.fxml;
     exports org.sudokuclub;
+    exports org.sudokuclub.services;
+    opens org.sudokuclub.services to javafx.fxml;
 }

@@ -2,11 +2,32 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.LoginController">
    <children>
-       <fx:include fx:id="NavBar" source="nav-bar.fxml" />
-      <Label fx:id="testLabel" layoutX="386.0" layoutY="292.0" text="Label" />
-      <Button layoutX="258.0" layoutY="321.0" mnemonicParsing="false" onAction="#goToRegisterView" text="Go to Register" />
+       <fx:include fx:id="navBar" source="nav-bar.fxml" />
+      <Label layoutX="303.0" layoutY="364.0" onMouseClicked="#goToRegisterView" prefHeight="20.0" prefWidth="257.0" styleClass="form__register-link" stylesheets="@style.css" text="Don't have an account? Register now!">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="303.0" layoutY="137.0" prefHeight="27.0" prefWidth="50.0" styleClass="form__label" text="Login">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <TextField fx:id="loginField" layoutX="301.0" layoutY="170.0" prefHeight="25.0" prefWidth="234.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <Label layoutX="303.0" layoutY="223.0" styleClass="form__label" text="Password">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <PasswordField fx:id="passwordField" layoutX="303.0" layoutY="255.0" prefHeight="39.0" prefWidth="234.0">
+         <font>
+            <Font size="18.0" />
+         </font></PasswordField>
+      <Button fx:id="signInButton" layoutX="454.0" layoutY="316.0" mnemonicParsing="false" text="Sign In" />
+      <Label fx:id="signInMessage" layoutX="282.0" layoutY="439.0" prefHeight="17.0" prefWidth="272.0" />
    </children>
 </Pane>
