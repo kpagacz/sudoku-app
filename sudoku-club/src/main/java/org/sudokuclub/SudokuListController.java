@@ -14,6 +14,7 @@ import org.sudokuclub.dao.SolvedSudoku;
 import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.SolvedSudokusService;
 import org.sudokuclub.services.SudokuService;
+import org.sudokuclub.services.UserSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,7 +36,7 @@ public class SudokuListController {
   @FXML private TableColumn<SudokuRow, String> doneColumn;
 
   public void initialize() {
-    updateRowItems(1, 10, null);
+    updateRowItems(1, 10, UserSession.getLogin().getValue());
     ObservableList<SudokuRow> initialItems = FXCollections.observableArrayList(rowItems);
   }
 
