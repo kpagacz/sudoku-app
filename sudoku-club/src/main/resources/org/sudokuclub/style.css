@@ -35,3 +35,9 @@
 .button:hover, .button:focused {
     -fx-background-color: -fx-button-darker;
 }
+
+.form__register-link {
+    -fx-underline: true;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
