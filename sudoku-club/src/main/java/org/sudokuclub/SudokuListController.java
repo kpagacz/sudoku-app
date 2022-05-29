@@ -26,7 +26,7 @@ public class SudokuListController {
   record SudokuRow(int id, String name, String author, boolean done) {}
 
   private ObservableList<SudokuRow> rowItems;
-  private final int itemsPerPage = 10;
+  private final int itemsPerPage = 1;
   private int pagesCount;
   private int currentPage = 1;
 
@@ -40,11 +40,14 @@ public class SudokuListController {
   @FXML private Button nextButton;
 
   public void initialize() {
+    this.prevButton.setOnAction(e -> this.turnPage(-1));
+    this.nextButton.setOnAction(e -> this.turnPage(1));
     Pattern pattern = Pattern.compile("[0-9]*");
     TextFormatter formatter =
             new TextFormatter(
                     (UnaryOperator<TextFormatter.Change>)
                             change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
+    this.pageInput.setTextFormatter(formatter);
     this.nameColumn.setCellValueFactory(
             s -> new SimpleStringProperty(s.getValue().name)
     );
@@ -54,30 +57,40 @@ public class SudokuListController {
     this.doneColumn.setCellValueFactory(
             s -> new SimpleStringProperty(String.valueOf(s.getValue().done))
     );
-    this.pageInput.setTextFormatter(formatter);
-    this.currentPage = 1;
-    this.pageInput.setText(String.valueOf(this.currentPage));
-    updateRowItems(this.currentPage, this.itemsPerPage, UserSession.getLogin().getValue());
+    updateRowItems(1, UserSession.getLogin().getValue());
   }
 
-  private void updateRowItems(int page, int itemsPerPage, String user) {
+  private void updateRowItems(int page, String user) {
+    this.prevButton.disableProperty().set(false);
+    this.nextButton.disableProperty().set(false);
+
     List<Sudoku> sudokus;
     Set<Integer> solvedSudokus = new HashSet<>();
     try {
       SudokuService sudokuService = new SudokuService();
-      sudokus = sudokuService.get(page, itemsPerPage);
       int sudokusCount = sudokuService.sudokusCount();
       this.pagesCount = (int) Math.ceil(sudokusCount/this.itemsPerPage);
       if(this.pagesCount == 0) {
         this.pagesCount = 1;
       }
-      if(this.currentPage == this.pagesCount) {
-        this.nextButton.disableProperty().set(true);
+      this.totalPagesLabel.setText("/ "+String.valueOf(this.pagesCount));
+      if(page <= 1) {
+        this.currentPage = 1;
+      } else if(page >= this.pagesCount) {
+        this.currentPage = this.pagesCount;
+      } else {
+        this.currentPage = page;
       }
+
       if(this.currentPage == 1) {
         this.prevButton.disableProperty().set(true);
       }
-      this.totalPagesLabel.setText("/ "+String.valueOf(this.pagesCount));
+      if(this.currentPage == this.pagesCount) {
+        this.nextButton.disableProperty().set(true);
+      }
+      this.pageInput.setText(String.valueOf(this.currentPage));
+
+      sudokus = sudokuService.get(this.currentPage, this.itemsPerPage);
       SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
       solvedSudokus = new HashSet<>();
       if (user != null) {
@@ -106,7 +119,13 @@ public class SudokuListController {
 
   @FXML
   public void changePage() {
+    int newPage = Integer.parseInt(this.pageInput.getText());
+    this.updateRowItems(newPage, UserSession.getLogin().getValue());
+  }
 
+  public void turnPage(int changeNumber) {
+    int newPage = this.currentPage + changeNumber;
+    this.updateRowItems(newPage, UserSession.getLogin().getValue());
   }
 
   @FXML

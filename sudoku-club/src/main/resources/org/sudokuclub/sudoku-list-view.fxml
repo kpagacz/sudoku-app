@@ -17,7 +17,7 @@
       <Pane layoutX="260.0" layoutY="480.0" prefHeight="42.0" prefWidth="281.0" styleClass="sudoku-pagination">
          <children>
             <Label fx:id="totalPagesLabel" layoutX="127.0" layoutY="13.0" styleClass="sudoku-pagination__total-pages" text="/pages" />
-            <Button layoutX="194.0" layoutY="9.0" mnemonicParsing="false" text="Go" />
+            <Button layoutX="194.0" layoutY="9.0" mnemonicParsing="false" onAction="#changePage" text="Go" />
             <Button fx:id="prevButton" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="&lt;" />
             <Button fx:id="nextButton" layoutX="242.0" layoutY="9.0" mnemonicParsing="false" text="&gt;" />
             <TextField fx:id="pageInput" layoutX="69.0" layoutY="9.0" prefHeight="25.0" prefWidth="45.0" styleClass="sudoku-pagination__input" />
