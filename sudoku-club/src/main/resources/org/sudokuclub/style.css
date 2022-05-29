@@ -127,6 +127,6 @@
 
 .sudoku-pagination {
     -fx-background-color: -fx-header;
-    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 

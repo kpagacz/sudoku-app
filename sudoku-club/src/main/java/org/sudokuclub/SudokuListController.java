@@ -7,9 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.SolvedSudokusService;
 import org.sudokuclub.services.SudokuService;
@@ -20,6 +18,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class SudokuListController {
 
@@ -35,10 +35,29 @@ public class SudokuListController {
   @FXML private TableColumn<SudokuRow, String> authorColumn;
   @FXML private TableColumn<SudokuRow, String> doneColumn;
   @FXML private Label totalPagesLabel;
+  @FXML private TextField pageInput;
+  @FXML private Button prevButton;
+  @FXML private Button nextButton;
 
   public void initialize() {
+    Pattern pattern = Pattern.compile("[0-9]*");
+    TextFormatter formatter =
+            new TextFormatter(
+                    (UnaryOperator<TextFormatter.Change>)
+                            change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
+    this.nameColumn.setCellValueFactory(
+            s -> new SimpleStringProperty(s.getValue().name)
+    );
+    this.authorColumn.setCellValueFactory(
+            s -> new SimpleStringProperty(s.getValue().author)
+    );
+    this.doneColumn.setCellValueFactory(
+            s -> new SimpleStringProperty(String.valueOf(s.getValue().done))
+    );
+    this.pageInput.setTextFormatter(formatter);
+    this.currentPage = 1;
+    this.pageInput.setText(String.valueOf(this.currentPage));
     updateRowItems(this.currentPage, this.itemsPerPage, UserSession.getLogin().getValue());
-    ObservableList<SudokuRow> initialItems = FXCollections.observableArrayList(rowItems);
   }
 
   private void updateRowItems(int page, int itemsPerPage, String user) {
@@ -52,7 +71,13 @@ public class SudokuListController {
       if(this.pagesCount == 0) {
         this.pagesCount = 1;
       }
-      this.totalPagesLabel.setText(String.valueOf(this.pagesCount));
+      if(this.currentPage == this.pagesCount) {
+        this.nextButton.disableProperty().set(true);
+      }
+      if(this.currentPage == 1) {
+        this.prevButton.disableProperty().set(true);
+      }
+      this.totalPagesLabel.setText("/ "+String.valueOf(this.pagesCount));
       SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
       solvedSudokus = new HashSet<>();
       if (user != null) {
@@ -76,16 +101,11 @@ public class SudokuListController {
             .toList();
     rowItems = FXCollections.observableArrayList(rowItemsRaw);
     this.sudokuTable.setItems(rowItems);
-    this.nameColumn.setCellValueFactory(
-            s -> new SimpleStringProperty(s.getValue().name)
-    );
-    this.authorColumn.setCellValueFactory(
-            s -> new SimpleStringProperty(s.getValue().author)
-    );
-    this.doneColumn.setCellValueFactory(
-            s -> new SimpleStringProperty(String.valueOf(s.getValue().done))
-    );
     sudokuTable.prefHeightProperty().bind(sudokuTable.fixedCellSizeProperty().multiply(Bindings.size(sudokuTable.getItems()).add(1)));
+  }
+
+  @FXML
+  public void changePage() {
 
   }
 
