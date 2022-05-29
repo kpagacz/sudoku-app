@@ -26,7 +26,7 @@ public class SudokuListController {
   record SudokuRow(int id, String name, String author, boolean done) {}
 
   private ObservableList<SudokuRow> rowItems;
-  private final int itemsPerPage = 1;
+  private final int itemsPerPage = 10;
   private int pagesCount;
   private int currentPage = 1;
 
