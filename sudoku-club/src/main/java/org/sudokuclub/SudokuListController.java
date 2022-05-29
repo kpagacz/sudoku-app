@@ -138,21 +138,20 @@ public class SudokuListController {
     }
   }
 
-  /*@FXML
+  @FXML
   public void clickOnTable() {
     try {
-      FXMLLoader loader = new FXMLLoader(App.class.getResource("sudoku-player-window.fxml"));
+      FXMLLoader loader = new FXMLLoader(App.class.getResource("sudoku-player-view.fxml"));
       Parent newWindow = loader.load();
       SudokuPlayerController sudokuPlayer = loader.getController();
 
-      Sudoku sudoku = sudokuTable.getSelectionModel().getSelectedItem();
-      sudokuPlayer.setSudokuName(sudoku.name);
-      sudokuPlayer.setSudokuAuthor(sudoku.author);
+      SudokuRow sudoku = sudokuTable.getSelectionModel().getSelectedItem();
+      sudokuPlayer.setSudokuID(sudoku.id);
       System.out.println(sudoku.id);
 
       App.setNewScene(newWindow);
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }*/
+  }
 }

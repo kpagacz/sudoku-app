@@ -23,6 +23,8 @@ public class SudokuPlayerController {
   @FXML private GridPane sudokuGrid;
   @FXML private Label sudokuValidationLabel;
 
+  private int sudokuID;
+
   public void initialize() {
     this.sudokuName.setText("Name of Sudoku");
     String author = "Some User";
@@ -152,5 +154,9 @@ public class SudokuPlayerController {
 
     digitsMap.values().forEach(List::clear);
     return isSudokuCorrect;
+  }
+
+  public void setSudokuID(int id) {
+    this.sudokuID = id;
   }
 }
