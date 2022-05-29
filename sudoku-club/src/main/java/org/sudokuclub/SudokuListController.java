@@ -129,25 +129,14 @@ public class SudokuListController {
   }
 
   @FXML
-  public void goToSudokuPlayer() {
-    try {
-      Parent newWindow = FXMLLoader.load(App.class.getResource("sudoku-player-view.fxml"));
-      App.setNewScene(newWindow);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @FXML
-  public void clickOnTable() {
+  public void clickOnSudokuTable() {
     try {
       FXMLLoader loader = new FXMLLoader(App.class.getResource("sudoku-player-view.fxml"));
-      Parent newWindow = loader.load();
-      SudokuPlayerController sudokuPlayer = loader.getController();
 
       SudokuRow sudoku = sudokuTable.getSelectionModel().getSelectedItem();
-      sudokuPlayer.setSudokuID(sudoku.id);
-      System.out.println(sudoku.id);
+      SudokuPlayerController sudokuPlayer = new SudokuPlayerController(sudoku.id);
+      loader.setController(sudokuPlayer);
+      Parent newWindow = loader.load();
 
       App.setNewScene(newWindow);
     } catch (IOException e) {

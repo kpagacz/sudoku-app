@@ -7,7 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
+import org.sudokuclub.services.SudokuService;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +28,12 @@ public class SudokuPlayerController {
 
   private int sudokuID;
 
+  public SudokuPlayerController(int sudokuID) {
+    this.sudokuID = sudokuID;
+  }
+
   public void initialize() {
+    System.out.println("sudokuID in Player: "+this.sudokuID);
     this.sudokuName.setText("Name of Sudoku");
     String author = "Some User";
     this.sudokuAuthor.setText("author: " + author);

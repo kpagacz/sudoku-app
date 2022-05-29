@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.SudokuPlayerController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <fx:include fx:id="NavBar" source="nav-bar.fxml" />
         <Label fx:id="sudokuName" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="62.0" prefHeight="35.0" prefWidth="581.0" styleClass="sudoku__name" text="Title of Sudoku" textAlignment="CENTER" wrapText="true">
