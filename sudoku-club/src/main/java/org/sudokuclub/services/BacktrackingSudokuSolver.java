@@ -24,8 +24,15 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
 
   @Override
   public int[][] solve(int[][] gridDigits) {
-    Position startingPosition = new Position(0, -1).next(gridDigits);
-    return backtrackingSolve(gridDigits, startingPosition);
+    int[][] copiedDigits = copyGrid(gridDigits);
+    Position startingPosition = new Position(0, -1).next(copiedDigits);
+    return backtrackingSolve(copiedDigits, startingPosition);
+  }
+
+  private int[][] copyGrid(int[][] grid) {
+    int[][] copy = new int[9][9];
+    for(int i = 0; i < 9; i++) for (int j = 0; j < 9; j++) copy[i][j] = grid[i][j];
+    return copy;
   }
 
   @Override
@@ -38,9 +45,13 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     Position nextPosition = position.next(grid);
     for(int i = 1; i < 10; i++) {
       grid[position.row()][position.col()] = i;
-      if (isDigitValid(grid, position)) return backtrackingSolve(grid, nextPosition);
+      if (isDigitValid(grid, position)) {
+          int[][] solution = backtrackingSolve(grid, nextPosition);
+          if (solution != null) return solution;
+        }
       }
-    throw new RuntimeException("Sudoku has no solution");
+    grid[position.row()][position.col()] = 0;
+    return null;
   }
 
   private boolean isDigitValid(int[][] grid, Position position) {

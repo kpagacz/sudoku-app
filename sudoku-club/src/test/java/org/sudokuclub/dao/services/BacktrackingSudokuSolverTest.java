@@ -6,6 +6,8 @@ import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.BacktrackingSudokuSolver;
 import org.sudokuclub.services.SudokuSolver;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BacktrackingSudokuSolverTest {
@@ -16,7 +18,7 @@ class BacktrackingSudokuSolverTest {
   }
 
   @Test
-  @DisplayName("Empty sudoku cannot be solved")
+  @DisplayName("Empty sudoku can be solved")
   void testEmptySudokuIsNotSolvable() {
     int[][] emptySudoku = {
       {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -31,7 +33,7 @@ class BacktrackingSudokuSolverTest {
     };
     Sudoku sudoku = new Sudoku(1, "title", emptySudoku, "author");
     SudokuSolver solver = new BacktrackingSudokuSolver();
-    assertFalse(solver.isSolvable(sudoku));
+    assertTrue(solver.isSolvable(sudoku));
   }
 
   @Test
@@ -73,7 +75,25 @@ class BacktrackingSudokuSolverTest {
   }
 
   @Test
-  @DisplayName("solve throws given an empty unsolvable sudoku")
+  @DisplayName("isSolvable returns true given a complicated sudoku")
+  void testComplexSudokuIsSolvable() {
+    int[][] grid = {
+      {0, 0, 0, 2, 6, 0, 7, 0, 1},
+      {6, 8, 0, 0, 7, 0, 0, 9, 0},
+      {1, 9, 0, 0, 0, 4, 5, 0, 0},
+      {8, 2, 0, 1, 0, 0, 0, 4, 0},
+      {0, 0, 4, 6, 0, 2, 9, 0, 0},
+      {0, 5, 0, 0, 0, 3, 0, 2, 8},
+      {0, 0, 9, 3, 0, 0, 0, 7, 4},
+      {0, 4, 0, 0, 5, 0, 0, 3, 6},
+      {7, 0, 3, 0, 1, 8, 0, 0, 0}
+    };
+    SudokuSolver solver = new BacktrackingSudokuSolver();
+    assertTrue(solver.isSolvable(grid));
+  }
+
+  @Test
+  @DisplayName("solve returns a solved sudoku given an empty sudoku")
   void testSolveThrowsGivenEmptySudoku() {
     int[][] emptySudoku = {
       {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -88,7 +108,7 @@ class BacktrackingSudokuSolverTest {
     };
     Sudoku sudoku = new Sudoku(1, "title", emptySudoku, "author");
     SudokuSolver solver = new BacktrackingSudokuSolver();
-    assertThrows(RuntimeException.class, () -> solver.solve(sudoku));
+    assertDoesNotThrow(() -> solver.solve(sudoku));
   }
 
   @Test
@@ -119,5 +139,26 @@ class BacktrackingSudokuSolverTest {
     Sudoku sudoku = new Sudoku(1, "title", grid, "author");
     SudokuSolver solver = new BacktrackingSudokuSolver();
     assertArrayEquals(expected, solver.solve(sudoku));
+  }
+
+  @Test
+  @DisplayName("solve does not mutate the passed grid")
+  void testSolveDoesNotMutate() {
+    int[][] emptySudoku = {
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
+    int[][] expectedEmptySudoku = new int[9][9];
+    for (int i = 0; i < 9; i++) for (int j = 0; j < 9; j++) expectedEmptySudoku[i][j] = 0;
+    SudokuSolver solver = new BacktrackingSudokuSolver();
+    solver.solve(emptySudoku);
+    assertArrayEquals(expectedEmptySudoku, emptySudoku);
   }
 }

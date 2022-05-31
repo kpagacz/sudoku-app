@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -26,6 +27,8 @@ import org.sudokuclub.services.UserSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class SudokuDesignerController {
 
@@ -39,6 +42,24 @@ public class SudokuDesignerController {
 
   public void initialize() {
     publishButton.setOnAction(this::sudokuSubmissionHandler);
+    styleCellsInGrid();
+  }
+
+  private void styleCellsInGrid() {
+    Pattern pattern = Pattern.compile("[1-9]?");
+    ObservableList<Node> cells = this.sudokuGrid.getChildren();
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        TextField cell = (TextField) cells.get(i * 9 + j);
+        TextFormatter formatter =
+            new TextFormatter(
+                (UnaryOperator<TextFormatter.Change>)
+                    change ->
+                        pattern.matcher(change.getControlNewText()).matches() ? change : null);
+        cell.setTextFormatter(formatter);
+        cell.setOnMouseClicked(e -> cell.selectAll());
+      }
+    }
   }
 
   private static class PublishSudokuTask extends Task<String> {
@@ -62,9 +83,9 @@ public class SudokuDesignerController {
     @Override
     protected String call() {
       try {
-        SudokuSolver solver=  new BacktrackingSudokuSolver();
+        SudokuSolver solver = new BacktrackingSudokuSolver();
         if (!solver.isSolvable(grid)) {
-          return "You must publish a solvable sudoku!";
+          return "You must publish a proper, solvable sudoku!";
         }
         sudokuService.createSudoku(title, grid, author);
         return publishingSuccessMessage;
