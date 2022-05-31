@@ -7,6 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.SudokuService;
 
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class SudokuPlayerController {
+  private static Logger logger = LogManager.getLogger(SudokuPlayerController.class);
 
   @FXML private Label sudokuName;
   @FXML private Label sudokuAuthor;
@@ -33,24 +37,18 @@ public class SudokuPlayerController {
   }
 
   public void initialize() {
-    System.out.println("sudokuID in Player: "+this.sudokuID);
-    this.sudokuName.setText("Name of Sudoku");
-    String author = "Some User";
-    this.sudokuAuthor.setText("author: " + author);
-
-    int[][] numbers = {
-      {4, 3, 5, 2, 6, 9, 7, 8, 1},
-      {6, 8, 2, 5, 7, 1, 4, 9, 3},
-      {1, 9, 7, 8, 3, 4, 5, 6, 2},
-      {8, 2, 6, 1, 9, 5, 3, 4, 7},
-      {3, 7, 4, 6, 8, 2, 9, 1, 5},
-      {0, 5, 1, 7, 4, 3, 6, 2, 8},
-      {5, 1, 9, 3, 2, 6, 8, 7, 4},
-      {2, 4, 8, 9, 5, 7, 1, 3, 6},
-      {7, 6, 3, 4, 0, 8, 2, 5, 0},
-    };
-
-    this.setupSudoku(numbers);
+    logger.info("sudokuID in Player: " + this.sudokuID);
+    try {
+      SudokuService sudokuService = new SudokuService();
+      Sudoku sudoku = sudokuService.get(sudokuID);
+      this.sudokuName.setText(sudoku.title());
+      String author = sudoku.author();
+      this.sudokuAuthor.setText("author: " + author);
+      int[][] numbers = sudoku.cells();
+      this.setupSudoku(numbers);
+    } catch (SQLException | IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public void setupSudoku(int[][] numbers) {
@@ -69,8 +67,10 @@ public class SudokuPlayerController {
         TextFormatter formatter =
             new TextFormatter(
                 (UnaryOperator<TextFormatter.Change>)
-                    change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
+                    change ->
+                        pattern.matcher(change.getControlNewText()).matches() ? change : null);
         cell.setTextFormatter(formatter);
+        cell.setOnMouseClicked(e -> cell.selectAll());
       }
     }
   }
@@ -140,9 +140,10 @@ public class SudokuPlayerController {
     if (!isSudokuCorrect.get()) {
       this.sudokuValidationLabel.setText("Sudoku solved incorrectly!");
     } else {
-      // TODO: Here we should mark this sudoku as done for current user and disable button and/or sudoku
+      // TODO: Here we should mark this sudoku as done for current user and disable button and/or
+      // sudoku
       // cells
-      this.sudokuValidationLabel.setText("Sudoku good");
+      this.sudokuValidationLabel.setText("Congratulations! Sudoku solved correctly.");
     }
   }
 
@@ -151,9 +152,9 @@ public class SudokuPlayerController {
         .filter((list) -> list.size() > 1)
         .forEach(
             (list) -> {
-              for (Coord cellCoord : list) {
+              for (Coord cellCoordinate : list) {
                 cells
-                    .get(cellCoord.row * 9 + cellCoord.col)
+                    .get(cellCoordinate.row * 9 + cellCoordinate.col)
                     .getStyleClass()
                     .add("sudoku__cell--invalid");
               }

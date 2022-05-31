@@ -73,7 +73,7 @@ public class SudokuListController {
       if(this.pagesCount == 0) {
         this.pagesCount = 1;
       }
-      this.totalPagesLabel.setText("/ "+String.valueOf(this.pagesCount));
+      this.totalPagesLabel.setText("/ "+ this.pagesCount);
       if(page <= 1) {
         this.currentPage = 1;
       } else if(page >= this.pagesCount) {

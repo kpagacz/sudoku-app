@@ -24,4 +24,8 @@ public class SudokuService {
   public int sudokusCount() throws SQLException {
     return SudokusRepository.getSudokusCount(connection);
   }
+
+  public Sudoku get(int sudokuId) throws SQLException, JsonProcessingException {
+    return SudokusRepository.get(sudokuId, connection);
+  }
 }
