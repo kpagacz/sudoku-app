@@ -8,7 +8,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.MainController">
    <children>
       <fx:include fx:id="NavBar" source="nav-bar.fxml" />
-      <Button layoutX="335.0" layoutY="460.0" mnemonicParsing="false" onAction="#goToSudoku" styleClass="dds-button" text="Create Sudoku" />
+      <Button layoutX="335.0" layoutY="460.0" mnemonicParsing="false" onAction="#goToSudokuDesigner" styleClass="dds-button" text="Create Sudoku" />
       <Button layoutX="374.0" layoutY="101.0" mnemonicParsing="false" onAction="#goToSudokuList" styleClass="dds-button" stylesheets="@style.css" text="Play" textAlignment="CENTER">
          <font>
             <Font name="Inter Bold" size="15.0" />

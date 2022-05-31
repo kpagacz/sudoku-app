@@ -8,8 +8,13 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
 
   @Override
   public boolean isSolvable(Sudoku sudoku) {
+    return isSolvable(sudoku.cells());
+  }
+
+  @Override
+  public boolean isSolvable(int[][] gridDigits) {
     try{
-      solve(sudoku);
+      solve(gridDigits);
       return true;
     } catch(RuntimeException e) {
       e.printStackTrace();
@@ -18,9 +23,14 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
   }
 
   @Override
+  public int[][] solve(int[][] gridDigits) {
+    Position startingPosition = new Position(0, -1).next(gridDigits);
+    return backtrackingSolve(gridDigits, startingPosition);
+  }
+
+  @Override
   public int[][] solve(Sudoku sudoku) {
-    Position startingPosition = new Position(0, -1).next(sudoku.cells());
-    return backtrackingSolve(sudoku.cells(), startingPosition);
+    return solve(sudoku.cells());
   }
 
   private int[][] backtrackingSolve(int[][] grid, Position position) {
