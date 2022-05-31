@@ -155,6 +155,7 @@ public class SudokuPlayerController {
         if(this.solvedLabel.getText().length() == 0) {
           SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
           solvedSudokusService.createSolvedSudoku(user, this.sudokuID);
+          this.solvedLabel.setText("You've solved this sudoku");
         }
       }
       this.sudokuValidationLabel.setText("Congratulations! Sudoku solved correctly.");
