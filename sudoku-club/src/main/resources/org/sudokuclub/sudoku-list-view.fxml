@@ -6,7 +6,21 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.SudokuListController">
     <children>
         <fx:include fx:id="NavBar" source="nav-bar.fxml" />
-        <Label fx:id="testLabel" layoutX="289.0" layoutY="243.0" prefHeight="20.0" prefWidth="262.0" text="Label" wrapText="true" />
-      <Button layoutX="325.0" layoutY="311.0" mnemonicParsing="false" onAction="#goToSudokuPlayer" text="Play test sudoku" />
+      <TableView fx:id="sudokuTable" fixedCellSize="25.0" layoutX="165.0" layoutY="185.0" onMouseClicked="#clickOnSudokuTable" prefHeight="266.0" prefWidth="470.0" styleClass="sudoku-table">
+         <columns>
+            <TableColumn fx:id="nameColumn" editable="false" prefWidth="262.0" styleClass="sudoku-table__col" text="Name" />
+            <TableColumn fx:id="authorColumn" editable="false" prefWidth="144.0" styleClass="sudoku-table__col" text="Author" />
+            <TableColumn fx:id="doneColumn" editable="false" prefWidth="63.0" text="Done" />
+         </columns>
+      </TableView>
+      <Pane layoutX="260.0" layoutY="480.0" prefHeight="42.0" prefWidth="281.0" styleClass="sudoku-pagination">
+         <children>
+            <Label fx:id="totalPagesLabel" layoutX="127.0" layoutY="13.0" styleClass="sudoku-pagination__total-pages" text="/pages" />
+            <Button layoutX="194.0" layoutY="9.0" mnemonicParsing="false" onAction="#changePage" text="Go" />
+            <Button fx:id="prevButton" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="&lt;" />
+            <Button fx:id="nextButton" layoutX="242.0" layoutY="9.0" mnemonicParsing="false" text="&gt;" />
+            <TextField fx:id="pageInput" layoutX="69.0" layoutY="9.0" prefHeight="25.0" prefWidth="45.0" styleClass="sudoku-pagination__input" />
+         </children>
+      </Pane>
     </children>
 </Pane>

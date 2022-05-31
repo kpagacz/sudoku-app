@@ -4,7 +4,7 @@
     -fx-button: #7C7492;
     -fx-button-darker: #615b73;
     -fx-grid-line: #b52672;
-    -fx-disabled-grey: #b5b5b5;
+    -fx-disabled-grey: #9c9c9c;
     -fx-secondary-brighter: #faf0f6;
     -fx-negative: #d90019;
 }
@@ -27,7 +27,7 @@
     -fx-font-size: 24px;
 }
 
-.button {
+.dds-button {
     -fx-background-color: -fx-button;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -36,7 +36,7 @@
     -fx-padding: 0.3em 1.1em 0.3em 1.1em;
 }
 
-.button:hover, .button:focused {
+.dds-button:hover, .dds-button:focused {
     -fx-background-color: -fx-button-darker;
 }
 
@@ -86,3 +86,47 @@
 .sudoku__cell--invalid {
     -fx-text-fill: -fx-negative;
 }
+
+.sudoku-table {
+    -fx-selection-bar: #EE75B7;
+    -fx-selection-bar-non-focused: #E4ADCB;
+}
+
+.sudoku-table .column-header-background {
+    -fx-background-color: -fx-header;
+}
+
+.sudoku-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-width: 0px 1px 1px 0px;
+    -fx-border-color: black;
+}
+
+.sudoku-table .table-cell {
+    -fx-border-width: 0px 1px 1px 0px;
+    -fx-border-color: black;
+    -fx-padding: 2 0 2 10px;
+}
+
+.sudoku-table *.scroll-bar *.increment-button,
+.sudoku-table *.scroll-bar *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.sudoku-table *.scroll-bar *.increment-arrow,
+.sudoku-table *.scroll-bar *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
+.sudoku-pagination {
+    -fx-background-color: -fx-header;
+    -fx-background-radius: 10px;
+}
+

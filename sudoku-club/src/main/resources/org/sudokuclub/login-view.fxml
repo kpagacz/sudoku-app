@@ -27,7 +27,7 @@
          <font>
             <Font size="18.0" />
          </font></PasswordField>
-      <Button fx:id="signInButton" layoutX="454.0" layoutY="316.0" mnemonicParsing="false" text="Sign In" />
+      <Button fx:id="signInButton" layoutX="454.0" layoutY="316.0" mnemonicParsing="false" styleClass="dds-button" text="Sign In" />
       <Label fx:id="signInMessage" layoutX="282.0" layoutY="439.0" prefHeight="17.0" prefWidth="272.0" />
    </children>
 </Pane>
