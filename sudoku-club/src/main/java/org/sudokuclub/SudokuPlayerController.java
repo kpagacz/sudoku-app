@@ -37,7 +37,7 @@ public class SudokuPlayerController {
   }
 
   public void initialize() {
-    logger.info("sudokuID in Player: " + this.sudokuID);
+    logger.debug("sudokuID in Player: " + this.sudokuID);
     try {
       SudokuService sudokuService = new SudokuService();
       Sudoku sudoku = sudokuService.get(sudokuID);
