@@ -96,7 +96,7 @@ public class SudokuPlayerController {
   }
 
   @FXML
-  public void check() {
+  public void check() throws SQLException, IOException {
     AtomicBoolean isSudokuCorrect = new AtomicBoolean(true);
     int[][] numbers = new int[9][9];
     ObservableList<Node> cells = this.sudokuGrid.getChildren();
@@ -150,9 +150,13 @@ public class SudokuPlayerController {
     if (!isSudokuCorrect.get()) {
       this.sudokuValidationLabel.setText("Sudoku solved incorrectly!");
     } else {
-      // TODO: Here we should mark this sudoku as done for current user and disable button and/or
-      // sudoku
-      // cells
+      String user = UserSession.getLogin().getValue();
+      if(user != null && user.length() != 0) {
+        if(this.solvedLabel.getText().length() == 0) {
+          SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
+          solvedSudokusService.createSolvedSudoku(user, this.sudokuID);
+        }
+      }
       this.sudokuValidationLabel.setText("Congratulations! Sudoku solved correctly.");
     }
   }

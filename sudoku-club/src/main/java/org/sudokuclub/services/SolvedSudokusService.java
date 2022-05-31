@@ -27,4 +27,8 @@ public class SolvedSudokusService {
     int solvedSudoku = SolvedSudokusRepository.get(user, sudokuID, connection);
     return solvedSudoku;
   }
+
+  public void createSolvedSudoku(String user, int sudokuID) throws SQLException {
+    SolvedSudokusRepository.create(sudokuID, user, connection);
+  }
 }
