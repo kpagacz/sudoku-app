@@ -19,6 +19,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sudokuclub.services.BacktrackingSudokuSolver;
 import org.sudokuclub.services.SudokuService;
 import org.sudokuclub.services.SudokuSolver;
@@ -31,6 +33,7 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class SudokuDesignerController {
+  private final Logger logger = LogManager.getLogger(SudokuDesignerController.class);
 
   @FXML public Pane NavBar;
   @FXML public GridPane sudokuGrid;
@@ -42,6 +45,8 @@ public class SudokuDesignerController {
 
   public void initialize() {
     publishButton.setOnAction(this::sudokuSubmissionHandler);
+    saveButton.setOnAction(this::openSaveDialog);
+    loadButton.setOnAction(this::openLoadDialog);
     styleCellsInGrid();
   }
 
@@ -151,20 +156,39 @@ public class SudokuDesignerController {
   }
 
   @FXML
-  public void openSaveLoadDialog() {
+  void openLoadDialog(ActionEvent event) {
     final Stage dialog = new Stage();
     dialog.initModality(Modality.APPLICATION_MODAL);
     dialog.initOwner(App.mainStage);
     try {
       Parent root =
-          FXMLLoader.load(
-              Objects.requireNonNull(App.class.getResource("sudoku-save-load-dialog.fxml")));
+          FXMLLoader.load(Objects.requireNonNull(App.class.getResource("sudoku-load-dialog.fxml")));
       Scene dialogScene = new Scene(root, 600, 400);
       String css = Objects.requireNonNull(App.class.getResource("style.css")).toExternalForm();
       dialogScene.getStylesheets().add(css);
       dialog.setScene(dialogScene);
     } catch (IOException err) {
-      System.out.println("save-dialog.fxml load problem");
+      logger.error("sudoku-load-dialog.fxml load problem");
+      return;
+    }
+    dialog.show();
+  }
+
+  @FXML
+  public void openSaveDialog(ActionEvent event) {
+    final Stage dialog = new Stage();
+    dialog.initModality(Modality.APPLICATION_MODAL);
+    dialog.initOwner(App.mainStage);
+    try {
+      Parent root =
+          FXMLLoader.load(Objects.requireNonNull(App.class.getResource("sudoku-save-dialog.fxml")));
+      Scene dialogScene = new Scene(root, 600, 400);
+      String css = Objects.requireNonNull(App.class.getResource("style.css")).toExternalForm();
+      dialogScene.getStylesheets().add(css);
+      dialog.setScene(dialogScene);
+    } catch (IOException err) {
+      logger.error("sudoku-save-dialog.fxml load problem");
+      return;
     }
     dialog.show();
   }
