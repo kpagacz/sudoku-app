@@ -17,16 +17,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.sudokuclub.dao.Sudoku;
 import org.sudokuclub.services.BacktrackingSudokuSolver;
 import org.sudokuclub.services.SudokuService;
 import org.sudokuclub.services.SudokuSolver;
 import org.sudokuclub.services.UserSession;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
@@ -157,39 +159,58 @@ public class SudokuDesignerController {
 
   @FXML
   void openLoadDialog(ActionEvent event) {
-    final Stage dialog = new Stage();
-    dialog.initModality(Modality.APPLICATION_MODAL);
-    dialog.initOwner(App.mainStage);
-    try {
-      Parent root =
-          FXMLLoader.load(Objects.requireNonNull(App.class.getResource("sudoku-load-dialog.fxml")));
-      Scene dialogScene = new Scene(root, 600, 400);
-      String css = Objects.requireNonNull(App.class.getResource("style.css")).toExternalForm();
-      dialogScene.getStylesheets().add(css);
-      dialog.setScene(dialogScene);
-    } catch (IOException err) {
-      logger.error("sudoku-load-dialog.fxml load problem");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open sudoku");
+    File file = fileChooser.showOpenDialog(App.mainStage);
+    if (file == null) {
+      logger.info("No file chosen");
       return;
     }
-    dialog.show();
+    try {
+      loadSudoku(file);
+    } catch (IOException | ClassNotFoundException e) {
+      logger.error(String.format("Error loading a sudoku %s", e.getMessage()));
+    }
+  }
+
+  private void loadSudoku(File file) throws IOException, ClassNotFoundException {
+    ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
+    Sudoku sudoku = (Sudoku) inputStream.readObject();
+    sudokuTitleField.setText(sudoku.title());
+    fillGrid(sudoku.cells());
   }
 
   @FXML
   public void openSaveDialog(ActionEvent event) {
-    final Stage dialog = new Stage();
-    dialog.initModality(Modality.APPLICATION_MODAL);
-    dialog.initOwner(App.mainStage);
-    try {
-      Parent root =
-          FXMLLoader.load(Objects.requireNonNull(App.class.getResource("sudoku-save-dialog.fxml")));
-      Scene dialogScene = new Scene(root, 600, 400);
-      String css = Objects.requireNonNull(App.class.getResource("style.css")).toExternalForm();
-      dialogScene.getStylesheets().add(css);
-      dialog.setScene(dialogScene);
-    } catch (IOException err) {
-      logger.error("sudoku-save-dialog.fxml load problem");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Save sudoku");
+    File file = fileChooser.showSaveDialog(App.mainStage);
+    if (file == null) {
+      logger.info("No file chosen");
       return;
     }
-    dialog.show();
+    try {
+      saveSudoku(file);
+    } catch (IOException e) {
+      logger.error(String.format("Error saving the sudoku %s", e.getMessage()));
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void saveSudoku(File file) throws IOException {
+    ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+    Sudoku sudoku =
+        new Sudoku(0, sudokuTitleField.getText(), readGrid(), UserSession.getLogin().get());
+    outputStream.writeObject(sudoku);
+  }
+
+  private void fillGrid(int[][] numbers) {
+    ObservableList<Node> cells = this.sudokuGrid.getChildren();
+    for (int i = 0; i < 9; i++)
+      for (int j = 0; j < 9; j++) {
+        TextField cell = (TextField) cells.get(i * 9 + j);
+        if (numbers[i][j] != 0) cell.setText(String.valueOf(numbers[i][j]));
+        else cell.setText("");
+      }
   }
 }
