@@ -35,6 +35,14 @@ public class SolvedSudokusRepository {
     return extractSolvedSudokusFromQuery(statement, query);
   }
 
+  public static int get(String player, int id, Connection conn) throws SQLException {
+    Statement statement = conn.createStatement();
+    String query = String.format("SELECT COUNT(*) FROM %s WHERE sudokuId=%d AND userLogin='%s'", table, id, player);
+    ResultSet result = statement.executeQuery(query);
+    result.next();
+    return result.getInt(1);
+  }
+
   private static List<SolvedSudoku> extractSolvedSudokusFromQuery(Statement statement, String query)
       throws SQLException {
     ResultSet result = statement.executeQuery(query);

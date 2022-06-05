@@ -10,7 +10,9 @@ import javafx.scene.layout.GridPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sudokuclub.dao.Sudoku;
+import org.sudokuclub.services.SolvedSudokusService;
 import org.sudokuclub.services.SudokuService;
+import org.sudokuclub.services.UserSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,6 +31,7 @@ public class SudokuPlayerController {
   @FXML private Label sudokuAuthor;
   @FXML private GridPane sudokuGrid;
   @FXML private Label sudokuValidationLabel;
+  @FXML private Label solvedLabel;
 
   private int sudokuID;
 
@@ -37,8 +40,15 @@ public class SudokuPlayerController {
   }
 
   public void initialize() {
-    logger.info("sudokuID in Player: " + this.sudokuID);
     try {
+      String user = UserSession.getLogin().getValue();
+      if(user != null && user.length() != 0) {
+        SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
+        int isSudokuSolved = solvedSudokusService.checkSolvedSudokuByUser(user, this.sudokuID);
+        if(isSudokuSolved == 1) {
+          this.solvedLabel.setText("You've solved this sudoku");
+        }
+      }
       SudokuService sudokuService = new SudokuService();
       Sudoku sudoku = sudokuService.get(sudokuID);
       this.sudokuName.setText(sudoku.title());
@@ -86,7 +96,7 @@ public class SudokuPlayerController {
   }
 
   @FXML
-  public void check() {
+  public void check() throws SQLException, IOException {
     AtomicBoolean isSudokuCorrect = new AtomicBoolean(true);
     int[][] numbers = new int[9][9];
     ObservableList<Node> cells = this.sudokuGrid.getChildren();
@@ -140,9 +150,14 @@ public class SudokuPlayerController {
     if (!isSudokuCorrect.get()) {
       this.sudokuValidationLabel.setText("Sudoku solved incorrectly!");
     } else {
-      // TODO: Here we should mark this sudoku as done for current user and disable button and/or
-      // sudoku
-      // cells
+      String user = UserSession.getLogin().getValue();
+      if(user != null && user.length() != 0) {
+        if(this.solvedLabel.getText().length() == 0) {
+          SolvedSudokusService solvedSudokusService = new SolvedSudokusService();
+          solvedSudokusService.createSolvedSudoku(user, this.sudokuID);
+          this.solvedLabel.setText("You've solved this sudoku");
+        }
+      }
       this.sudokuValidationLabel.setText("Congratulations! Sudoku solved correctly.");
     }
   }
