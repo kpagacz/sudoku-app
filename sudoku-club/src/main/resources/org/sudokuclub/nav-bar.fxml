@@ -6,7 +6,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="800.0" styleClass="navigation" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.NavBarController">
    <children>
       <Button fx:id="signInButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" onAction="#goToLoginView" styleClass="dds-button" text="Sign In" />
-      <Button layoutX="563.0" layoutY="11.0" mnemonicParsing="false" onAction="#goToSudokuList" styleClass="dds-button" text="My Sudokus" />
+      <Button layoutX="563.0" layoutY="11.0" mnemonicParsing="false" onAction="#goToSudokuList" styleClass="dds-button" text="Pick Sudoku" />
       <Label layoutX="14.0" layoutY="6.0" onMouseClicked="#goToMainView" prefHeight="37.0" prefWidth="261.0" styleClass="navigation__home-label" text="Doki Doki Sudoku Club">
       </Label>
       <Button fx:id="signOutButton" layoutX="695.0" layoutY="10.0" mnemonicParsing="false" styleClass="dds-button" text="Sign out" />
