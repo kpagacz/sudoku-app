@@ -28,4 +28,9 @@ public class SudokuService {
   public Sudoku get(int sudokuId) throws SQLException, JsonProcessingException {
     return SudokusRepository.get(sudokuId, connection);
   }
+
+  public void createSudoku(String title, int[][] gridDigits, String author)
+      throws SQLException, JsonProcessingException {
+    SudokusRepository.create(title, gridDigits, author, connection);
+  }
 }

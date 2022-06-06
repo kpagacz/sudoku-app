@@ -40,6 +40,7 @@ public class SudokuPlayerController {
   }
 
   public void initialize() {
+    logger.debug("sudokuID in Player: " + this.sudokuID);
     try {
       String user = UserSession.getLogin().getValue();
       if(user != null && user.length() != 0) {

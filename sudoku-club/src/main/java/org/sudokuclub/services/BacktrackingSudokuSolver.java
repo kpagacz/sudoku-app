@@ -2,14 +2,25 @@ package org.sudokuclub.services;
 
 import org.sudokuclub.dao.Sudoku;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class BacktrackingSudokuSolver implements SudokuSolver {
 
   @Override
   public boolean isSolvable(Sudoku sudoku) {
+    return isSolvable(sudoku.cells());
+  }
+
+  @Override
+  public boolean isSolvable(int[][] gridDigits) {
     try{
-      solve(sudoku);
+      boolean areDigitsValid = true;
+      for(int i = 0; i < 9; i++)
+        for(int j = 0; j < 9; j++) if (gridDigits[i][j] != 0)
+          areDigitsValid = isDigitValid(gridDigits, new Position(i, j)) && areDigitsValid;
+      if (!areDigitsValid) return false;
+      solve(gridDigits);
       return true;
     } catch(RuntimeException e) {
       e.printStackTrace();
@@ -18,9 +29,21 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
   }
 
   @Override
+  public int[][] solve(int[][] gridDigits) {
+    int[][] copiedDigits = copyGrid(gridDigits);
+    Position startingPosition = new Position(0, -1).next(copiedDigits);
+    return backtrackingSolve(copiedDigits, startingPosition);
+  }
+
+  private int[][] copyGrid(int[][] grid) {
+    int[][] copy = new int[9][9];
+    for(int i = 0; i < 9; i++) for (int j = 0; j < 9; j++) copy[i][j] = grid[i][j];
+    return copy;
+  }
+
+  @Override
   public int[][] solve(Sudoku sudoku) {
-    Position startingPosition = new Position(0, -1).next(sudoku.cells());
-    return backtrackingSolve(sudoku.cells(), startingPosition);
+    return solve(sudoku.cells());
   }
 
   private int[][] backtrackingSolve(int[][] grid, Position position) {
@@ -28,9 +51,13 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     Position nextPosition = position.next(grid);
     for(int i = 1; i < 10; i++) {
       grid[position.row()][position.col()] = i;
-      if (isDigitValid(grid, position)) return backtrackingSolve(grid, nextPosition);
+      if (isDigitValid(grid, position)) {
+          int[][] solution = backtrackingSolve(grid, nextPosition);
+          if (solution != null) return solution;
+        }
       }
-    throw new RuntimeException("Sudoku has no solution");
+    grid[position.row()][position.col()] = 0;
+    return null;
   }
 
   private boolean isDigitValid(int[][] grid, Position position) {
