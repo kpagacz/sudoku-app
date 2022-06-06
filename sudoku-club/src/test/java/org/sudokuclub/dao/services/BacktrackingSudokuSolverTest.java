@@ -37,6 +37,24 @@ class BacktrackingSudokuSolverTest {
   }
 
   @Test
+  @DisplayName("Wrong sudoku is not solvable")
+  void testWrongSudokuIsNotSolvable() {
+    int[][] grid = {
+      {1, 1, 1, 1, 1, 1, 1, 1, 1},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
+    SudokuSolver solver = new BacktrackingSudokuSolver();
+    assertFalse(solver.isSolvable(grid));
+  }
+
+  @Test
   @DisplayName("isSolvable returns true given a solved sudoku")
   void testSolvedSudokuIsSolvable() {
     int[][] grid = {

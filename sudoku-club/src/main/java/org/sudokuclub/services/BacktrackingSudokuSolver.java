@@ -2,6 +2,7 @@ package org.sudokuclub.services;
 
 import org.sudokuclub.dao.Sudoku;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class BacktrackingSudokuSolver implements SudokuSolver {
@@ -14,6 +15,11 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
   @Override
   public boolean isSolvable(int[][] gridDigits) {
     try{
+      boolean areDigitsValid = true;
+      for(int i = 0; i < 9; i++)
+        for(int j = 0; j < 9; j++) if (gridDigits[i][j] != 0)
+          areDigitsValid = isDigitValid(gridDigits, new Position(i, j)) && areDigitsValid;
+      if (!areDigitsValid) return false;
       solve(gridDigits);
       return true;
     } catch(RuntimeException e) {
