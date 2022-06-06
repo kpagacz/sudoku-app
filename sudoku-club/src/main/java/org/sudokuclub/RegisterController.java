@@ -16,6 +16,9 @@ import org.sudokuclub.services.RegisterService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RegisterController {
   @FXML private Button registerButton;
@@ -92,6 +95,12 @@ public class RegisterController {
       String login = loginField.getText();
       if (login.length() < 4 || login.length() > 20) {
         resultLabel.setText("Login must have between 4 and 20 characters");
+        registerButton.setDisable(true);
+        return;
+      }
+      List<String> forbiddenItems = List.of(" ");
+      if (forbiddenItems.stream().anyMatch(login::contains)) {
+        resultLabel.setText("Login must not include spaces");
         registerButton.setDisable(true);
         return;
       }
