@@ -22,4 +22,13 @@ public class SolvedSudokusService {
         .map(SolvedSudoku::sudokuId)
         .collect(Collectors.toList());
   }
+
+  public int checkSolvedSudokuByUser(String user, int sudokuID) throws SQLException {
+    int solvedSudoku = SolvedSudokusRepository.get(user, sudokuID, connection);
+    return solvedSudoku;
+  }
+
+  public void createSolvedSudoku(String user, int sudokuID) throws SQLException {
+    SolvedSudokusRepository.create(sudokuID, user, connection);
+  }
 }
