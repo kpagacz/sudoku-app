@@ -1,5 +1,6 @@
 package org.sudokuclub;
 
+import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -15,6 +16,9 @@ import org.sudokuclub.services.RegisterService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RegisterController {
   @FXML private Button registerButton;
@@ -45,7 +49,9 @@ public class RegisterController {
     }
   }
 
-  public void initialize() {}
+  public void initialize() {
+    loginField.focusedProperty().addListener(validateLogin);
+  }
 
   @FXML
   private void handleRegisterButton(ActionEvent event) {
@@ -83,6 +89,25 @@ public class RegisterController {
 
     return true;
   }
+
+  private final ChangeListener<Boolean> validateLogin = (((observableValue, aBoolean, t1) -> {
+    if (!t1) {
+      String login = loginField.getText();
+      if (login.length() < 4 || login.length() > 20) {
+        resultLabel.setText("Login must have between 4 and 20 characters");
+        registerButton.setDisable(true);
+        return;
+      }
+      List<String> forbiddenItems = List.of(" ");
+      if (forbiddenItems.stream().anyMatch(login::contains)) {
+        resultLabel.setText("Login must not include spaces");
+        registerButton.setDisable(true);
+        return;
+      }
+      resultLabel.setText("");
+      registerButton.setDisable(false);
+    }
+  }));
 
   @FXML
   public void goToLoginView() {

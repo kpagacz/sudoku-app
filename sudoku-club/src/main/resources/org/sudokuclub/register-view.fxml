@@ -7,14 +7,14 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sudokuclub.RegisterController">
    <children>
       <fx:include fx:id="navBar" source="nav-bar.fxml" />
-      <TextField fx:id="loginField" layoutX="310.0" layoutY="170.0" prefHeight="30.0" prefWidth="225.0">
-         <font>
-            <Font size="18.0" />
-         </font></TextField>
       <Label layoutX="309.0" layoutY="134.0" styleClass="form__label" text="Login">
          <font>
             <Font size="18.0" />
          </font></Label>
+      <TextField fx:id="loginField" layoutX="310.0" layoutY="170.0" prefHeight="30.0" prefWidth="225.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
       <Label layoutX="309.0" layoutY="219.0" styleClass="form__label" text="Password">
          <font>
             <Font size="18.0" />
@@ -23,7 +23,6 @@
          <font>
             <Font size="18.0" />
          </font></PasswordField>
-      <Button fx:id="registerButton" layoutX="442.0" layoutY="399.0" mnemonicParsing="false" onAction="#handleRegisterButton" styleClass="dds-button" text="Register" />
       <Label layoutX="312.0" layoutY="304.0" styleClass="form__label" text="Confirm Password">
          <font>
             <Font size="18.0" />
@@ -32,6 +31,7 @@
          <font>
             <Font size="18.0" />
          </font></PasswordField>
+      <Button fx:id="registerButton" layoutX="442.0" layoutY="399.0" mnemonicParsing="false" onAction="#handleRegisterButton" styleClass="dds-button" text="Register" />
       <Label fx:id="resultLabel" layoutX="287.0" layoutY="457.0" prefHeight="17.0" prefWidth="270.0" />
    </children>
 </Pane>
