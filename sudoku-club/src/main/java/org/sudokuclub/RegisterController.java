@@ -67,7 +67,10 @@ public class RegisterController {
   }
 
   private void handleRegisterSuccess(WorkerStateEvent event) {
-    resultLabel.setText("Account registered!");
+    if ((boolean) event.getSource().getValue())
+      resultLabel.setText("Account registered!");
+    else
+      resultLabel.setText("Account failed to register!");
     loginField.clear();
     passwordField.clear();
     confirmPasswordField.clear();

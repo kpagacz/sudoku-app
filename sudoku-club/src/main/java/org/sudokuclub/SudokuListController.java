@@ -69,7 +69,7 @@ public class SudokuListController {
     try {
       SudokuService sudokuService = new SudokuService();
       int sudokusCount = sudokuService.sudokusCount();
-      this.pagesCount = (int) Math.ceil(sudokusCount/this.itemsPerPage);
+      this.pagesCount = (int) Math.ceil(1.0 * sudokusCount/this.itemsPerPage);
       if(this.pagesCount == 0) {
         this.pagesCount = 1;
       }
